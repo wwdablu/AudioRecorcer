@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 
 import com.wwdablu.soumya.aucoder.notification.AucoderNotification;
 
@@ -43,18 +42,9 @@ public final class AucoderService extends Service {
         notificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notification = new AucoderNotification().createNotification(this,
-                    CHANNEL_ID, "Recording Session", "Recording...",
-                    "Recording in-progress", R.drawable.ic_recording);
-        } else {
-            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setOngoing(true)
-                .setAutoCancel(false)
-                .setSmallIcon(R.drawable.ic_recording)
-                .addAction(new NotificationCompat.Action(R.drawable.ic_stop, "Stop", new AucoderNotification().getStopPendingIntent(this)))
-                .build();
-        }
+        notification = new AucoderNotification().createNotification(this,
+                CHANNEL_ID, "Recording Session", "Recording...",
+                "Recording in-progress", R.drawable.ic_recording);
     }
 
     @Override

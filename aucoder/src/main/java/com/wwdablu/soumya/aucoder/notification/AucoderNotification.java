@@ -12,6 +12,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.wwdablu.soumya.aucoder.AucoderService;
@@ -38,7 +39,6 @@ public final class AucoderNotification {
         return channelId;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
     public Notification createNotification(@NonNull Context context,
                                            @NonNull String channelId,
@@ -46,6 +46,29 @@ public final class AucoderNotification {
                                            @NonNull String title,
                                            @NonNull String message,
                                            @NonNull @DrawableRes int icon) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return createNotificationForOreoAndAbove(context, channelId, channelName, title, message, icon);
+        }
+
+        return createNotificationForPreOreo(context, channelId, title, message, icon);
+    }
+
+    public PendingIntent getStopPendingIntent(Context context) {
+
+        Intent intent = new Intent(context, AucoderService.class);
+        intent.putExtra("action", "stop_recording");
+
+        return PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private Notification createNotificationForOreoAndAbove(@NonNull Context context,
+                                                           @NonNull String channelId,
+                                                           @NonNull String channelName,
+                                                           @NonNull String title,
+                                                           @NonNull String message,
+                                                           @NonNull @DrawableRes int icon) {
 
         String id = createChannel(context, channelName, channelId);
         if(TextUtils.isEmpty(id)) {
@@ -59,13 +82,23 @@ public final class AucoderNotification {
                 .setStyle(new Notification.BigTextStyle())
                 .addAction(new Action(R.drawable.ic_stop, "Stop", getStopPendingIntent(context)))
                 .build();
+
     }
 
-    public PendingIntent getStopPendingIntent(Context context) {
+    private Notification createNotificationForPreOreo(@NonNull Context context,
+                                                      @NonNull String channelId,
+                                                      @NonNull String title,
+                                                      @NonNull String message,
+                                                      @NonNull @DrawableRes int icon) {
 
-        Intent intent = new Intent(context, AucoderService.class);
-        intent.putExtra("action", "stop_recording");
-
-        return PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return new NotificationCompat.Builder(context, channelId)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setOngoing(true)
+                .setAutoCancel(false)
+                .setSmallIcon(R.drawable.ic_recording)
+                .addAction(new NotificationCompat.Action(R.drawable.ic_stop, "Stop",
+                        new AucoderNotification().getStopPendingIntent(context)))
+                .build();
     }
 }
