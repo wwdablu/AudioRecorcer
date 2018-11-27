@@ -26,7 +26,7 @@ public final class AucoderConfig implements Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface AudioFormat {}
 
-    @IntDef({AUDIO_ENC_AAC, AUDIO_ENC_AAC_ELD, AUDIO_ENC_AAC_HE, AUDIO_ENC_AMR_NB, AUDIO_ENC_AMR_WB, AUDIO_ENC_VORBSIS})
+    @IntDef({AUDIO_ENC_AAC, AUDIO_ENC_AAC_ELD, AUDIO_ENC_AAC_HE, AUDIO_ENC_AMR_NB, AUDIO_ENC_AMR_WB, AUDIO_ENC_VORBIS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface AudioEncoder {}
 
@@ -43,7 +43,7 @@ public final class AucoderConfig implements Parcelable {
         delay = 0;
         fileName = "recording_" + System.currentTimeMillis();
         channelMode = CHANNEL_STEREO;
-        sampleRate = SAMPLE_RATE_44100;
+        sampleRate = SAMPLE_RATE_48000;
         audioSource = SOURCE_MIC;
         audioFormat = FORMAT_3GPP;
         audioEncoder = AUDIO_ENC_AMR_NB;
@@ -125,5 +125,5 @@ public final class AucoderConfig implements Parcelable {
     public static final int AUDIO_ENC_AAC_HE = 3;
     public static final int AUDIO_ENC_AMR_NB = 4;
     public static final int AUDIO_ENC_AMR_WB = 5;
-    public static final int AUDIO_ENC_VORBSIS = 6;
+    public static final int AUDIO_ENC_VORBIS = 6;
 }

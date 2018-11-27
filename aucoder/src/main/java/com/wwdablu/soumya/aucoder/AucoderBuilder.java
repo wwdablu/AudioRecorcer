@@ -8,6 +8,7 @@ import com.wwdablu.soumya.aucoder.AucoderConfig.Source;
 import com.wwdablu.soumya.aucoder.AucoderConfig.SampleRate;
 import com.wwdablu.soumya.aucoder.AucoderConfig.ChannelMode;
 import com.wwdablu.soumya.aucoder.AucoderConfig.AudioFormat;
+import com.wwdablu.soumya.aucoder.AucoderConfig.AudioEncoder;
 
 public final class AucoderBuilder {
 
@@ -59,6 +60,11 @@ public final class AucoderBuilder {
         }
 
         config.audioFormat = audioFormat;
+        return this;
+    }
+
+    public AucoderBuilder audioEncoder(@AudioEncoder int encoder) {
+        config.audioEncoder = encoder;
         return this;
     }
 

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 final class AucoderMediaRecoderConverter {
 
-    public static int getAudioEncoder(@NonNull AucoderConfig aucoderConfig) {
+    static int getAudioEncoder(@NonNull AucoderConfig aucoderConfig) {
 
         switch (aucoderConfig.audioEncoder) {
 
@@ -25,7 +25,7 @@ final class AucoderMediaRecoderConverter {
             case AucoderConfig.AUDIO_ENC_AMR_WB:
                 return MediaRecorder.AudioEncoder.AMR_WB;
 
-            case AucoderConfig.AUDIO_ENC_VORBSIS:
+            case AucoderConfig.AUDIO_ENC_VORBIS:
                 return MediaRecorder.AudioEncoder.VORBIS;
         }
 
@@ -33,7 +33,7 @@ final class AucoderMediaRecoderConverter {
     }
 
     @SuppressLint("InlinedApi")
-    public static int getOutputFormat(@NonNull AucoderConfig aucoderConfig) {
+    static int getOutputFormat(@NonNull AucoderConfig aucoderConfig) {
 
         switch (aucoderConfig.audioFormat) {
 
@@ -62,7 +62,7 @@ final class AucoderMediaRecoderConverter {
         return MediaRecorder.OutputFormat.THREE_GPP;
     }
 
-    public static int getAudioSource(@NonNull AucoderConfig aucoderConfig) {
+    static int getAudioSource(@NonNull AucoderConfig aucoderConfig) {
 
         switch (aucoderConfig.audioSource) {
 

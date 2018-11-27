@@ -1,11 +1,14 @@
 package com.wwdablu.soumya.aucoder;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 
 import com.wwdablu.soumya.aucoder.notification.AucoderNotification;
 
@@ -27,23 +30,49 @@ public final class AucoderService extends Service {
     private MediaRecorder mediaRecorder;
     private AucoderConfig aucoderConfig;
     private DisposableObserver<Void> recoderObserver;
+    private Notification notification;
+    private NotificationManager notificationManager;
 
     private boolean isRecording;
-    private Notification notification;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        notificationManager = (NotificationManager)
+                this.getSystemService(Context.NOTIFICATION_SERVICE);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notification = new AucoderNotification().createNotification(this,
                     CHANNEL_ID, "Recording Session", "Recording...",
                     "Recording in-progress", R.drawable.ic_recording);
+        } else {
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setOngoing(true)
+                .setAutoCancel(false)
+                .setSmallIcon(R.drawable.ic_recording)
+                .addAction(new NotificationCompat.Action(R.drawable.ic_stop, "Stop", new AucoderNotification().getStopPendingIntent(this)))
+                .build();
         }
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        if(intent == null) {
+            return START_NOT_STICKY;
+        }
+
+        if(intent.hasExtra("action") && intent.getStringExtra("action").equalsIgnoreCase("stop_recording")) {
+            stopAndCompleteOperation();
+            return START_NOT_STICKY;
+        }
+
+        if(intent.getExtras() == null) {
+            return START_NOT_STICKY;
+        }
+
         aucoderConfig = intent.getExtras().getParcelable(EXTRA_AUCODER_CONFIG);
 
         //Continue with the existing session
@@ -53,6 +82,8 @@ public final class AucoderService extends Service {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(1, notification);
+        } else {
+            notificationManager.notify(1, notification);
         }
 
         recoderObserver = Observable.create((ObservableOnSubscribe<Void>) emitter -> {
@@ -71,16 +102,12 @@ public final class AucoderService extends Service {
 
             @Override
             public void onError(Throwable e) {
-                stopRecording();
-                stopForeground(true);
-                stopSelf();
+                stopAndCompleteOperation();
             }
 
             @Override
             public void onComplete() {
-                stopRecording();
-                stopForeground(true);
-                stopSelf();
+                stopAndCompleteOperation();
             }
         });
 
@@ -101,7 +128,20 @@ public final class AucoderService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        recoderObserver.onComplete();
+
+        if(recoderObserver != null) {
+            recoderObserver.onComplete();
+        }
+    }
+
+    private void stopAndCompleteOperation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
+        } else {
+            notificationManager.cancel(1);
+        }
+        stopRecording();
+        stopSelf();
     }
 
     private void ensureNoActiveRecordSession() {
