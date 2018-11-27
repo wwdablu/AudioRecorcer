@@ -2,6 +2,8 @@ package com.wwdablu.soumya.aucodersample;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.wwdablu.soumya.aucoder.Aucoder;
@@ -12,10 +14,18 @@ public class MainActivity extends AppCompatActivity {
     private AucoderConfig config;
     private Aucoder aucoder;
 
+    String[] permissions = {
+            "android.permission.RECORD_AUDIO",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.READ_EXTERNAL_STORAGE"
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActivityCompat.requestPermissions(this, permissions, 100);
 
         config = Aucoder.Builder()
             .delay(0)
