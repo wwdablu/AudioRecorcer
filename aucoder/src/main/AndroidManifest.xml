@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wwdablu.soumya.aucoder">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application>
+        <service
+            android:name=".AucoderService"
+            android:description="@string/aucoder_service_description"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
+
+</manifest>

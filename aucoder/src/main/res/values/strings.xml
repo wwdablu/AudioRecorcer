@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Aucoder</string>
+    <string name="aucoder_service_description">Service to record audio from microphone once enabled.</string>
+</resources>
