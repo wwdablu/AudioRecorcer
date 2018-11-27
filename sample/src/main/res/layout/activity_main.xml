@@ -4,20 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_data"
+        android:layout_margin="16dp"
+        android:text="@string/all_permissions_required_for_this_sample_application_to_work_as_expected"
+        android:textAlignment="center"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_start_record"
-        android:text="Start Record"
+        android:text="@string/start_record"
+        android:layout_marginTop="16dp"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_stop_record"
-        android:text="Stop Record"
+        android:text="@string/stop_record"
+        android:layout_marginTop="16dp"
         />
 
 </LinearLayout>
