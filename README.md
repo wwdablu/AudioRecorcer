@@ -38,4 +38,7 @@ aucoder.begin();
 Once the recording is complete or we want to stop, then we can call `aucoder.end()`. Or if we tap on the stop button on the notification then it would stop the recording.  
 
 ### Permissions  
-Any runtime permission for microphone and storage is required to be obtained by the application as the library does not handle it. Incase required permissions are not provided then the library may fail silently or even crash. This has been done purposefully so that the application developers has the controls of it entirely.
+Any runtime permission for microphone and storage is required to be obtained by the application as the library does not handle it. Incase required permissions are not provided then the library may fail silently or even crash. This has been done purposefully so that the application developers has the controls of it entirely.  
+
+### Screenshot  
+![Version 1.0.0 Screenshot](https://github.com/wwdablu/Aucoder/blob/master/screenshot/screenshot_1.0.0.png)
