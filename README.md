@@ -1,7 +1,22 @@
 # Aucoder
 Library (**Au**dio Re**coder**) that allows to record audio from microphone in Android. The library will create a service and allow audio to be recorded even if the application is closed. The recording can be stopped from the notification.  
+  
+  
+### Gradle Usage  
+```  
+allprojects {
+	repositories {
+		maven { url 'https://jitpack.io' }
+	}
+}
 
-## Usage  
+dependencies {
+    implementation 'com.github.wwdablu:Aucoder:1.0.0'
+}
+```  
+Mention the above in the gradle files. Once done, sync and you should be good to go.  
+
+### Library Usage  
 At first, a configuration needs to be created which will provide the audio capturing information. For example:  
 ```
 AucoderConfig config = Aucoder.Builder()
@@ -22,5 +37,5 @@ aucoder.begin();
   
 Once the recording is complete or we want to stop, then we can call `aucoder.end()`. Or if we tap on the stop button on the notification then it would stop the recording.  
 
-## Permissions  
+### Permissions  
 Any runtime permission for microphone and storage is required to be obtained by the application as the library does not handle it. Incase required permissions are not provided then the library may fail silently or even crash. This has been done purposefully so that the application developers has the controls of it entirely.
