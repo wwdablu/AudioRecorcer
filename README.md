@@ -11,7 +11,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.wwdablu:Aucoder:1.0.0'
+    implementation 'com.github.wwdablu:Aucoder:x.y.z'
 }
 ```  
 Mention the above in the gradle files. Once done, sync and you should be good to go.  
