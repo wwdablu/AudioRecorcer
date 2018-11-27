@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AucoderSample</string>
+    <string name="all_permissions_required_for_this_sample_application_to_work_as_expected">All permissions required for this sample application to work as expected.</string>
+    <string name="stop_record">Stop Record</string>
+    <string name="start_record">Start Record</string>
 </resources>
